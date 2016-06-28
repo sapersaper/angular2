@@ -2,10 +2,10 @@ Angular 2 Project
 =======
 
 #4.create a simple router
-### add file and update
-> add route and code
+## add file and update
+###add route and code
 
->in ng2-app/src/app/app.routes.ts
+in ng2-app/src/app/app.routes.ts
 
 ```javascript
 //add this
@@ -34,9 +34,9 @@ export const APP_ROUTER_PROVIDERS = [
 ];
 ```
 
-> modify app.component.html
+###modify app.component.html
 
->in ng2-app/src/app/app.component.html
+in ng2-app/src/app/app.component.html
 ```html
 <!--add this-->
 <nav>
@@ -46,9 +46,9 @@ export const APP_ROUTER_PROVIDERS = [
 <router-outlet></router-outlet>
 ```
 
-> modify app.component.ts
+###modify app.component.ts
 
->in ng2-app/src/app/app.component.ts
+in ng2-app/src/app/app.component.ts
 
 ```javascript
 //...import router provider
@@ -64,9 +64,9 @@ import { APP_ROUTER_PROVIDERS } from './app/app.routes';
 })
 ```
 
-> modify main.ts
+###modify main.ts
 
->in ng2-app/src/app/main.ts
+in ng2-app/src/app/main.ts
 
 ```javascript
 //...import router provider
