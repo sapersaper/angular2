@@ -27,3 +27,18 @@ home.component.spec.ts
 home.component.ts
 index.ts
 ~~~~ 
+
+#3.create home component
+### create a component using angular cli
+1. ng generate component products
+2. run project -> ng serve
+
+##### NOTE
+in ng2-app/src/app/products are a new 5 files
+~~~~ 
+products.component.css
+products.component.html
+products.component.spec.ts
+products.component.ts
+index.ts
+~~~~ 
