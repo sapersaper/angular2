@@ -1,7 +1,4 @@
-Angular 2 Project
-=======
-
-#4.create a simple router
+#Angular 2 Project - 4.create a simple router
 ## add file and update
 ###add route and code
 
