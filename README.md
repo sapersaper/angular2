@@ -1,67 +1,133 @@
-#Angular 2 Project - 7.create product service and populate product list
-##create product.service
-### create a sevice 
+#Angular 2 Project - 8.view details for each products
+### modify files 
 in ng2-app/src/app/products/
 
-create file products.service.ts
+modify file products.routes.ts
 ```javascript
-import { Injectable } from '@angular/core';
-export class Product {
-  constructor(public id: number, public name: string) { }
+//replace this
+path: 'product-detail', 
+
+//for this
+path: ':id', 
+```
+
+
+
+in ng2-app/src/app/products/
+
+modify file products.component.html
+```html
+<!-- remove this -->
+<nav>
+  <a [routerLink]="['/products']">Product List</a>
+  <a [routerLink]="['/products/product-detail']">Product Detail</a>
+</nav>
+```
+
+in ng2-app/src/app/products/product-detail/
+
+modify file product-detail.component.ts
+
+```javascript
+//import this modules
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute }       from '@angular/router';
+import { Product, ProductService } from '../product.service';
+
+@Component({
+  moduleId: module.id,
+  selector: 'app-product-detail',
+  templateUrl: 'product-detail.component.html',
+  styleUrls: ['product-detail.component.css'],
+  //add ProductService as provider
+  providers: [ProductService]
+})
+
+//replace this
+export class ProductDetailComponent implements OnInit {
+  constructor() {}
+  ngOnInit() {}
 }
 
-let PRODUCT = [
-  new Product(1, 'HyperTough 50 Piece Screwdriver Set'),
-  new Product(2, 'Stanley 22-Piece Hex Key Set, 85-753'),
-  new Product(3, 'Camco Leveling Scissor Jack Drill Socket'),
-  new Product(4, '18-Piece Combination Wrench Set'),
-  new Product(5, 'HyperTough 8-Piece Hobby Clamp Set'),
-  new Product(6, 'Hyper Tough 40-Piece Socket Set')
-];
+//for this
+export class ProductDetailComponent implements OnInit, OnDestroy {
+  product: Product;
+  editProductName: string;
+  private sub: any;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private service: ProductService) { }
 
-let productPromise = Promise.resolve(PRODUCT);
-@Injectable()
-export class ProductService {
-
-  constructor() {}
-
-  getProducts() { return productPromise; }
-  getProduct(id: number | string) {
-    return productPromise
-      .then(product => product.filter(p => p.id === +id)[0]);
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      let id = +params['id']; // (+) converts string 'id' to a number
+      this.service.getProduct(id)
+        .then(product => {
+          this.product = product;
+          this.editProductName = product.name;
+        });
+    });
   }
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+  gotoProducts() {
+    this.router.navigate(['/products']);
+  }
+  cancel() {
+    this.gotoProducts();
+  }
+  save() {
+    this.product.name = this.editProductName;
+    this.gotoProducts();
+  }
 }
 ```
 
-in ng2-app/src/app/products/
+in ng2-app/src/app/products/product-detail/
 
-modify file products.component.ts
+modify file product-detail.component.html
+```html
+<!-- add this -->
+<div *ngIf="product">
+    <h3>"{{product.name}}"</h3>
+    <div>
+      <label>Id: </label>{{product.id}}</div>
+    <div>
+      <label>Name: </label>
+      <input [(ngModel)]="editProductName" placeholder="name" size="40"/>
+    </div>
+    <p>
+      <button (click)="cancel()">Cancel</button>
+      <button (click)="save()">Save</button>
+    </p>
+  </div>
+```
+in ng2-app/src/app/products/product-detail/
+
+modify file product-detail.component.spec.ts
+
 ```javascript
-//import ProductsRoutes
-import { Product, ProductService }   from './product.service';
+//add this
+//define params
+var router, activatedRoute, productService;
 
-/@Component({
-  moduleId: module.id,
-  selector: 'app-products',
-  templateUrl: 'products.component.html',
-  styleUrls: ['products.component.css'],
-  directives: [ROUTER_DIRECTIVES],
-  //...add service as  provider
-  providers: [ProductService]
-})
+//replace this
+let component = new ProductDetailComponent();
+
+//for this
+    let component = new ProductDetailComponent(router, activatedRoute, productService);
 ```
 
 in ng2-app/src/app/products/product-list/
 
-modify file products-list.component.ts
+modify file product-list.component.ts
 ```javascript
+//import this
+import { Router } from '@angular/router';
+
 //replace this
-export class ProductListComponent implements OnInit {
-  constructor() {}
-  ngOnInit() {}
-}
-//for this
 export class ProductListComponent implements OnInit {
   constructor(private userService: ProductService) { }
   products: Product[];
@@ -69,18 +135,43 @@ export class ProductListComponent implements OnInit {
     this.userService.getProducts().then(products => this.products = products);
   }
 }
+
+//for this
+export class ProductListComponent implements OnInit {
+  constructor(private userService: ProductService, private router: Router) { }
+  products: Product[];
+  ngOnInit() {
+    this.userService.getProducts().then(products => this.products = products);
+  }
+  onSelect(product: Product) {
+    this.router.navigate(['/products', product.id]);
+  }
+}
 ```
 
 in ng2-app/src/app/products/product-list/
 
-modify file products-list.component.html
+modify file product-list.component.html
 ```html
-<!-- add this -->
-<ul>
-  <li *ngFor="let product of products">
-    <span>{{product.id}}</span> - {{product.name}}
-  </li>
-</ul>
+<!-- replace this -->
+<li *ngFor="let product of products">
+
+<!-- for this -->
+ <li *ngFor="let product of products" (click)="onSelect(product)">
 ```
 
-run project -> ng serve
+in ng2-app/src/app/products/product-list/
+
+modify file product-list.component.spec.ts
+
+```javascript
+//add this
+//define params
+var router, activatedRoute, productService;
+
+//replace this
+let component = new ProductListComponent();
+
+//for this
+    let component = new ProductListComponent(productService, router);
+```

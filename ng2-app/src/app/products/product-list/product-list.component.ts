@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Product, ProductService } from '../product.service';
 
 @Component({
@@ -9,9 +10,12 @@ import { Product, ProductService } from '../product.service';
 })
 
 export class ProductListComponent implements OnInit {
-  constructor(private userService: ProductService) { }
+  constructor(private userService: ProductService, private router: Router) { }
   products: Product[];
   ngOnInit() {
     this.userService.getProducts().then(products => this.products = products);
+  }
+  onSelect(product: Product) {
+    this.router.navigate(['/products', product.id]);
   }
 }

@@ -18,7 +18,7 @@ export const ProductsRoutes: RouterConfig = [
                 component: ProductListComponent 
             },
             { 
-                path: 'product-detail', 
+                path: ':id', 
                 component: ProductDetailComponent 
             }
         ]
