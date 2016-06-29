@@ -1,82 +1,29 @@
-#Angular 2 Project - 4.create a simple router
-## add file and update
-###add route and code
+#Angular 2 Project - 4.create product-list and product-detail components
+##create product-list component
+### create a components using angular cli
+ng generate component products/product-list
 
-in ng2-app/src/app/app.routes.ts
+##### NOTE
+in ng2-app/src/app/products/product-list are a new 5 files
+~~~~ 
+product-list.component.css
+product-list.component.html
+product-list.component.spec.ts
+product-list.component.ts
+product-list.ts
+~~~~ 
 
-```javascript
-//add this
-import { provideRouter, RouterConfig }  from '@angular/router';
-import { HomeComponent } from './home';
-import { ProductsComponent } from './products';
+ng generate component products/product-detail
 
-export const routes: RouterConfig = [
-    {
-        path: '',
-        redirectTo: '/home',
-        terminal: true
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
-    {
-        path: 'products',
-        component: ProductsComponent
-    }
-];
-
-export const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes)
-];
-```
-
-###modify app.component.html
-
-in ng2-app/src/app/app.component.html
-```html
-<!--add this-->
-<nav>
-  <a [routerLink]="['/home']">Home</a>
-  <a [routerLink]="['/products']">Products</a>
-</nav>
-<router-outlet></router-outlet>
-```
-
-###modify app.component.ts
-
-in ng2-app/src/app/app.component.ts
-
-```javascript
-//...import router provider
-import { APP_ROUTER_PROVIDERS } from './app/app.routes';
-
-@Component({
-  moduleId: module.id,
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css'],
-  //...add router provider as directive
-  directives: [ROUTER_DIRECTIVES]
-})
-```
-
-###modify main.ts
-
-in ng2-app/src/app/main.ts
-
-```javascript
-//...import router provider
-import { APP_ROUTER_PROVIDERS } from './app/app.routes';
-
-//replace this
-bootstrap(AppComponent);
-//for this
-bootstrap(AppComponent, [
-  APP_ROUTER_PROVIDERS
-])
-.catch(err => console.error(err));
-```
+##### NOTE
+in ng2-app/src/app/products/product-detail are a new 5 files
+~~~~ 
+product-detail.component.css
+product-detail.component.html
+product-detail.component.spec.ts
+product-detail.component.ts
+product-detail.ts
+~~~~ 
 
 
 run project -> ng serve
