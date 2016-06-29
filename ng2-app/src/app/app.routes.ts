@@ -1,6 +1,7 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
 import { HomeComponent } from './home';
 import { ProductsComponent } from './products';
+import {  ProductsRoutes } from './products/products.routes';
 
 export const routes: RouterConfig = [
     {
@@ -12,10 +13,7 @@ export const routes: RouterConfig = [
         path: 'home',
         component: HomeComponent
     },
-    {
-        path: 'products',
-        component: ProductsComponent
-    }
+    ...ProductsRoutes
 ];
 
 export const APP_ROUTER_PROVIDERS = [

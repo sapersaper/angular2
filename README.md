@@ -1,29 +1,81 @@
-#Angular 2 Project - 4.create product-list and product-detail components
-##create product-list component
-### create a components using angular cli
-ng generate component products/product-list
+#Angular 2 Project - 6.create sub router for products
+##create product.routes
+### create a sub router 
+in ng2-app/src/app/products/
 
-##### NOTE
-in ng2-app/src/app/products/product-list are a new 5 files
-~~~~ 
-product-list.component.css
-product-list.component.html
-product-list.component.spec.ts
-product-list.component.ts
-product-list.ts
-~~~~ 
+create file products.routes.ts
+```javascript
+import { RouterConfig } from '@angular/router';
+import { ProductsComponent } from './';
+import { ProductDetailComponent } from './product-detail';
+import { ProductListComponent } from './product-list'
 
-ng generate component products/product-detail
+export const ProductsRoutes: RouterConfig = [
+    {
+        path: '',
+        redirectTo: '/products',
+        terminal: true
+    },
+    {
+        path: 'products',
+        component: ProductsComponent,
+        children: [
+            { 
+                path: '', 
+                component: ProductListComponent 
+            },
+            { 
+                path: 'product-detail', 
+                component: ProductDetailComponent 
+            }
+        ]
+    }
+];
+```
 
-##### NOTE
-in ng2-app/src/app/products/product-detail are a new 5 files
-~~~~ 
-product-detail.component.css
-product-detail.component.html
-product-detail.component.spec.ts
-product-detail.component.ts
-product-detail.ts
-~~~~ 
+in ng2-app/src/app/
 
+modify file app.routes.ts
+```javascript
+//import ProductsRoutes
+import {  ProductsRoutes } from './products/products.routes';
+
+//replace this
+{
+    path: 'products',
+    component: ProductsComponent
+}
+//for this
+...ProductsRoutes
+```
+
+in ng2-app/src/app/products/
+
+modify file products.component.ts
+```javascript
+//import ProductsRoutes
+import { ROUTER_DIRECTIVES } from '@angular/router';
+
+@Component({
+  moduleId: module.id,
+  selector: 'app-products',
+  templateUrl: 'products.component.html',
+  styleUrls: ['products.component.css'],
+  //...add router provider as directive
+  directives: [ROUTER_DIRECTIVES]
+})
+```
+
+in ng2-app/src/app/products/
+
+modify file products.component.html
+```html
+<!-- add this -->
+<nav>
+  <a [routerLink]="['/products']">Product List</a>
+  <a [routerLink]="['/products/product-detail']">Product Detail</a>
+</nav>
+<router-outlet></router-outlet>
+```
 
 run project -> ng serve
