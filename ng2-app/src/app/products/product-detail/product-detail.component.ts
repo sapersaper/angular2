@@ -24,8 +24,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       let id = +params['id']; // (+) converts string 'id' to a number
       this.service.getProduct(id)
         .then(product => {
-          this.product = product;
-          this.editProductName = product.name;
+          if (product) {
+            this.product = product;
+            this.editProductName = product.name;
+          } else {
+            this.gotoProducts();
+          }
+
         });
     });
   }
