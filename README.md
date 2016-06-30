@@ -1,14 +1,18 @@
-#Angular 2 Project - 8.view details for each products
-### modify files 
-in ng2-app/src/app/products/
+#Angular 2 Project - 10.Add guard that detect route access
+### add and modify files 
+in ng2-app/src/app/guards/
 
-modify file products.routes.ts
+create file activate.guard.ts
 ```javascript
-//replace this
-path: 'product-detail', 
 
-//for this
-path: ':id', 
+import { CanActivate } from '@angular/router';
+
+export class ActivateGuard implements CanActivate {
+  canActivate() {
+    console.log('ActivateGuard#canActivate called');
+    return true;
+  }
+} 
 ```
 
 

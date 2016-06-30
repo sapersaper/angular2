@@ -1,4 +1,3 @@
-
 import { CanActivate } from '@angular/router';
 
 export class ActivateGuard implements CanActivate {
