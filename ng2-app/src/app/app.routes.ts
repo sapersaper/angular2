@@ -1,6 +1,7 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
 import { HomeComponent } from './home';
 import { ProductsComponent } from './products';
+import { AuthComponent } from './auth';
 import {  ProductsRoutes } from './products/products.routes';
 
 export const routes: RouterConfig = [
@@ -13,7 +14,11 @@ export const routes: RouterConfig = [
         path: 'home',
         component: HomeComponent
     },
-    ...ProductsRoutes
+    ...ProductsRoutes,
+    {
+        path: 'auth',
+        component: AuthComponent
+    }
 ];
 
 export const APP_ROUTER_PROVIDERS = [

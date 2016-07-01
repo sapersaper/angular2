@@ -2,7 +2,7 @@ import { RouterConfig } from '@angular/router';
 import { ProductsComponent } from './';
 import { ProductDetailComponent } from './product-detail';
 import { ProductListComponent } from './product-list'
-import { ActivateGuard } from '../guards/activate.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 export const ProductsRoutes: RouterConfig = [
     {
@@ -13,7 +13,7 @@ export const ProductsRoutes: RouterConfig = [
     {
         path: 'products',
         component: ProductsComponent,
-        canActivate: [ActivateGuard],
+        canActivate: [AuthGuard],
         children: [
             { 
                 path: '', 
